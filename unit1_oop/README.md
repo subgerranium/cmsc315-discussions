@@ -36,14 +36,14 @@ Your reflection should be approximately 150–200 words and address the followin
 
 ## Implementation
 
-I implemented `ParentClass` as a generic vehicle representation with a class variable, `wheels`, set to 4, along with two instance variables, `make` and `model`, initialized through the constructor. I added a `display_info()` method to print an object's details.
-
-I then created `ChildClass` (representing a `Car`) to inherit from `ParentClass`. I called `super().__init__()` inside its constructor to reuse the parent's initialization logic instead of duplicating it, and added a new class variable, `category`, along with two new instance variables, `year` and a mutable `features` list. I overrode `display_info()` to include the additional car-specific fields and added a new `add_feature()` method to append items to a car's feature list.
-
-For the namespace demonstration, I created two `Car` objects and accessed the `category` class variable through both the class and an instance to show they resolved to the same value. I then added a `color` attribute to only one of the two objects and printed each object's `__dict__` to confirm their instance namespaces remained independent of one another.
-
-For the copying demonstration, I created a `Car` object with a populated `features` list, then created both a shallow copy and a deep copy of it. After modifying the original object's `features` list, I printed all three objects to show that the shallow copy reflected the change (since it shared the same underlying list as the original), while the deep copy retained its own independent list and was unaffected.
-
-For my student-created extension, I added a class-level counter, `total_cars_created`, that incremented each time a `Car` object was instantiated, along with a `show_total_created()` classmethod to report the running total. This extension reinforced the namespace concepts covered earlier in the assignment, since the counter is stored on the class itself rather than on any individual object.
-
-I tested all functionality by running the script directly and confirming the printed output matched expected behavior for inheritance, namespace resolution, and copy semantics.
+For this assignment, I made a vehicle system using a ParentClass (representing a generic vehicle) and a ChildClass called 
+Car that inherits. The ParentClass defines a class variable called "wheels", set to 4 because every car in this model shares 
+that common trait as well as two instance variables, "make" and "model", which are initialized in the constructor. The 
+display_info() method prints those details. ChildClass extends the ParentClass using inheritance by calling super().__init__()
+to reuse the parent's constructor logic instead of duplicating it. It adds its own class variable of "category" which is set 
+to "Passenger", as well as two new instance variables, "year" and a mutable "features" list. I overrode display_info() so Cars 
+print their additional details along with the inherited ones, and added add_feature() to append to a car's feature list. 
+This was used to build out cars like the Dodge Ram with a tow package. For the student-created extension, I added a class-level
+counter of "total_cars_created" that increments every time a Car object is made, along with a show_total_created() method to 
+output it. This ties directly into the namespace concepts covered in the assignment because the counter is stored on the class
+and not on an individual car. This makes it a good example of shared class level state vs per object instance state.
