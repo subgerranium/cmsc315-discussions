@@ -22,7 +22,12 @@ def insert_at(lst, index, value):
     - Use comments to explain how insertion performance may vary depending on
       where the insertion occurs.
     """
-    pass
+    # Insert the value at the specified index. Any existing elements at or after this index are
+    # shifted one position to the right. The time required depends on where the insertion happens:
+    # If it's at the end: O(1) amortized, since no elements need to be shifted.
+    # If it's at the beginning or in the middle: O(n), since the following elements must be shifted.
+    lst.insert(index, value)
+    return lst
 
 
 def delete_at(lst, index):
@@ -36,7 +41,14 @@ def delete_at(lst, index):
     - Return None if the index is invalid.
     - Add comments explaining why index validation and safe deletion are important.
     """
-    pass
+    # Check that the index is valid before trying to remove anything. This helps keep an invalid
+    # index from causing an IndexError and stopping the program. If the index doesn't exist, return
+    # None instead of trying.
+    if index < 0 or index >= len(lst):
+        return None
+
+    # Remove and return the item at the given index.
+    return lst.pop(index)
 
 
 def search_value(lst, value):
@@ -49,7 +61,13 @@ def search_value(lst, value):
     - Return -1 if the value is not found.
     - Add comments explaining why this is a linear search and why it scans sequentially.
     """
-    pass
+    # A linear search checks each item in the list from left to right. We have to check the items
+    # one by one because a Python list doesn't use a hash table or sorted order to find values
+    # instantly. In the worst case scenario, we need to check every item, which takes O(n) time.
+    try:
+        return lst.index(value)
+    except ValueError:
+        return -1
 
 
 def main():
@@ -72,6 +90,25 @@ def main():
     print("\n=== INSERTION TESTS ===")
     print("TODO: Create a list and demonstrate insertions.")
 
+    # Create a list containing several values.
+    playlist = ["Twinkle,Twinkle", "ABC", "Wheels on the Bus"]
+
+    # Display the original list.
+    print(f"Original Playlist: {playlist}")
+
+    # Test insertion at - beginning, middle, end.
+    # Beginning (index 0) - shifts all existing elements right (O(n)).
+    insert_at(playlist, 0, "Intro")
+    print(f"After insertion (beginning): {playlist}")
+
+    # Middle (index 2) - shifts elements from index 2 right (O(n)).
+    insert_at(playlist, 2, "Interlude")
+    print(f"After insertion (middle): {playlist}")
+
+    # End (append/end index) - O(1) amortized, no shifting needed.
+    insert_at(playlist, len(playlist), "Outro")
+    print(f"After insertion (end): {playlist}")
+
     # ===============================
     # TODO (Student): DELETION TESTS
     # ===============================
@@ -88,6 +125,18 @@ def main():
     print("\n=== DELETION TESTS ===")
     print("TODO: Demonstrate deletions from multiple positions.")
 
+    # Delete an item from beginning, middle, and end.
+    removed_beg = delete_at(playlist, 0)
+    print(f"Removed from beginning: '{removed_beg}' -> Updated list: {playlist}")
+
+    mid_idx = len(playlist) // 2
+    removed_mid = delete_at(playlist, mid_idx)
+    print(f"Removed from middle (idx {mid_idx}): '{removed_mid}' -> Updated list: {playlist}")
+
+    removed_end = delete_at(playlist, len(playlist) - 1)
+    print(f"Removed from end: '{removed_end}' -> Updated list: {playlist}")
+
+
     # ===============================
     # TODO (Student): SEARCH TESTS
     # ===============================
@@ -100,6 +149,20 @@ def main():
 
     print("\n=== SEARCH TESTS ===")
     print("TODO: Demonstrate searching for values.")
+
+    # Sample data of inventory list
+    inventory = ["shirt", "pants", "shoes"]
+
+    # Search for a value that exists
+    target_existing = "pants"
+    idx_found = search_value(inventory, target_existing)
+    print(f"Search for existing value '{target_existing}': Found at index {idx_found}")
+
+    # Search for a value that does not exist
+    target_missing = "belt"
+    idx_missing = search_value(inventory, target_missing)
+    print(f"Search for missing value '{target_missing}': Result {idx_missing}")
+
 
     # ===============================
     # TODO (Student): EDGE CASES
@@ -117,6 +180,16 @@ def main():
     print("\n=== EDGE CASES ===")
     print("TODO: Demonstrate at least two edge cases.")
 
+    # Edge Case 1: Delete using an invalid index
+    invalid_del = delete_at(inventory, 99)
+    print(f"Delete index (99): returned {invalid_del} ")
+
+    # Edge Case 2: Delete from an empty list
+    empty_list = []
+    del_empty = delete_at(empty_list, 0)
+    search_empty = search_value(empty_list, "test")
+    print(f"Delete from empty list: returned {del_empty}")
+    print(f"Search in empty list: returned {search_empty}")
 
 
 if __name__ == "__main__":
